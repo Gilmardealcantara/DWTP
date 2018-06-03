@@ -20,3 +20,8 @@ LOAD DATA LOCAL INFILE '/home/gilmar/Dropbox/10_periodo/DataWarehouse/tp/etl/con
 select * from reports;
 
 
+SET SQL_SAFE_UPDATES = 0;
+ -- remove aspas
+UPDATE `reports` 
+   SET `country` = TRIM(BOTH '"' FROM `country`);
+
