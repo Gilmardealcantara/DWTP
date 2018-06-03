@@ -13,10 +13,18 @@ HealthLifeExpectancy VARCHAR(50),
 Freedom VARCHAR(50), 
 Generosity VARCHAR(50), 
 TrustGovernmentCorruption VARCHAR(50), 
-DystopiaResidual VARCHAR(50)
+DystopiaResidual VARCHAR(50),
+year int
 );
 
-LOAD DATA LOCAL INFILE '/home/gilmar/Dropbox/10_periodo/DataWarehouse/tp/etl/conversao/data/reports/2017.csv' INTO TABLE reports FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES;
+LOAD DATA LOCAL INFILE '/home/arley/Dropbox/tp/etl/conversao/data/reports/2017.csv' INTO TABLE reports FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES SET year = 2017;
+
+
+LOAD DATA LOCAL INFILE '/home/arley/Dropbox/tp/etl/conversao/data/reports/2016.csv' INTO TABLE reports FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES SET year = 2016;
+
+
+LOAD DATA LOCAL INFILE '/home/arley/Dropbox/tp/etl/conversao/data/reports/2015.csv' INTO TABLE reports FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES SET year = 2015;
+
 select * from reports;
 
 
