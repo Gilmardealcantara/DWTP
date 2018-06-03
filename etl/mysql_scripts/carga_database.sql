@@ -1,5 +1,10 @@
 use TPDW;
 
+-- tempo
+insert into DimTempo values(1, 2017);
+insert into DimTempo values(2, 2016);
+insert into DimTempo values(3, 2015);
+
 -- localizacao
 set @rownum := 0;
 insert into DimLocalizacao (continente, pais, idLocalizacao)  
