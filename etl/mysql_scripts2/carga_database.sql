@@ -1,4 +1,5 @@
-use TPDW;
+use TPDW2;
+
 
 -- tempo
 insert into DimTempo values(1, 2017);
@@ -38,7 +39,8 @@ select id, country from eclipse_solar
 
 select * from FatoFelicidade;
 insert into FatoFelicidade  (
-	idLocalizacao,
+	idTempo,
+    idLocalizacao,
     idEclipse,
 	familia, 
 	expectativaVida, 
@@ -49,7 +51,9 @@ insert into FatoFelicidade  (
 	numeroMeteoros
 )
 select
-	distinct idLocalizacao,
+	distinct 
+    t.idTempo as idTempo,
+    idLocalizacao,
     e.id as idEclipse,
 	Family as familia, 
 	HealthLifeExpectancy as expectativaVida, 
@@ -58,19 +62,22 @@ select
     TrustGovernmentCorruption as confiancaGoverno, 
     HappinessScore as indiceDeFelicidade,
 	numeroMeteoros
-from reports as r join DimLocalizacao as dl
+from reports as r  join DimTempo t on
+r.year = t.ano
+join DimLocalizacao as dl
 on r.country = dl.pais 
 join (
-select id, country from eclipse_solar
+select id, country, CalendarDate as year from eclipse_solar
 union all
-select id, country from eclipse_lunar
+select id, country, CalendarDate as year from eclipse_lunar
 ) as e
 on r.country = e.country
 join (
-select count(*) as numeroMeteoros, country from meteorites group by country
+select count(*) as numeroMeteoros, country, year from meteorites group by country, year
 ) as m
 on r.country = m.country
-;
+where
+m.year = r.year and r.year=e.year;
 
 -- ---- --- -- -- 
 select * from meteorites;
@@ -78,4 +85,33 @@ select count(*) as meteoros, country from meteorites group by country;
 select count(*) as eclipse_solar, country from eclipse_solar group by country;
 select count(*) as eclipse_lunar, country from eclipse_lunar group by country;
 
+
+
+
+
+select
+	distinct 
+    t.idTempo as idTempo,
+    idLocalizacao,
+    e.id as idEclipse,
+	Family as familia, 
+	HealthLifeExpectancy as expectativaVida, 
+    Freedom as liberdade, 
+    Generosity as generorisade,
+    TrustGovernmentCorruption as confiancaGoverno, 
+    HappinessScore as indiceDeFelicidade,
+	numeroMeteoros
+from reports_2017 as r
+join DimLocalizacao as dl
+on r.country = dl.pais 
+join (
+select id, country, CalendarDate as year from eclipse_solar
+-- union all
+-- select id, country, CalendarDate as year from eclipse_lunar
+) as e
+on r.country = e.country
+join (
+select count(*) as numeroMeteoros, country, year from meteorites group by country, year
+) as m
+on r.country = m.country
 

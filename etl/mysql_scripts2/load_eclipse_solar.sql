@@ -1,4 +1,4 @@
-use TPDW;
+use TPDW2;
 
 Drop table eclipse_solar;
 CREATE TABLE eclipse_solar(
@@ -22,8 +22,8 @@ Widthkm VARCHAR(50),
 CentralDuration VARCHAR(50)
 );
 
-LOAD DATA LOCAL INFILE '/home/gilmar/Dropbox/10_periodo/DataWarehouse/tp/etl/conversao/outputs/output_lunar_eclipce_ok.csv' INTO TABLE eclipse_solar FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES;
+LOAD DATA LOCAL INFILE '/home/arley/Dropbox/tp/etl/conversao/outputs/output_solar_eclipce.csv' INTO TABLE eclipse_solar FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES;
 select * from eclipse_solar;
 
-select substring(CalendarDate, 2, 5) from eclipse_solar;
+update eclipse_solar set CalendarDate=substring(CalendarDate, 2, 5);
 

@@ -34,9 +34,54 @@ select id, country from eclipse_solar
 ;
 -- set @rownum := 0;
 
--- alter table FatoFelicidade drop foreign key fk_Fato_DimTempo;
+--alter table FatoFelicidade drop foreign key fk_Fato_DimTempo;
 
 select * from FatoFelicidade;
+insert into FatoFelicidade  (
+	idTempo,
+	idLocalizacao,
+    idEclipse,
+	familia, 
+	expectativaVida, 
+    liberdade, 
+    generorisade,
+    confiancaGoverno, 
+    indiceDeFelicidade,
+	numeroMeteoros
+)
+select
+	distinct idLocalizacao, t.ano,
+    e.id as idEclipse,
+	Family as familia, 
+	HealthLifeExpectancy as expectativaVida, 
+    Freedom as liberdade, 
+    Generosity as generorisade,
+    TrustGovernmentCorruption as confiancaGoverno, 
+    HappinessScore as indiceDeFelicidade,
+	numeroMeteoros
+from reports as r join DimLocalizacao as dl
+on r.country = dl.pais 
+join (
+select id, country from eclipse_solar
+union all
+select id, country from eclipse_lunar
+) as e
+on r.country = e.country
+join (
+select count(*) as numeroMeteoros, country, year from meteorites group by country, year
+) as m
+on r.country = m.country
+join DimTempo t on t.ano = r.year;
+;
+
+
+-- ---- --- -- -- 
+select * from meteorites;
+select count(*) as meteoros, country from meteorites group by country;
+select count(*) as eclipse_solar, country from eclipse_solar group by country;
+select count(*) as eclipse_lunar, country from eclipse_lunar group by country;
+
+
 insert into FatoFelicidade  (
 	idLocalizacao,
     idEclipse,
@@ -67,15 +112,8 @@ select id, country from eclipse_lunar
 ) as e
 on r.country = e.country
 join (
-select count(*) as numeroMeteoros, country from meteorites group by country
+select count(*) as numeroMeteoros, country, year from meteorites group by country, year
 ) as m
 on r.country = m.country
 ;
-
--- ---- --- -- -- 
-select * from meteorites;
-select count(*) as meteoros, country from meteorites group by country;
-select count(*) as eclipse_solar, country from eclipse_solar group by country;
-select count(*) as eclipse_lunar, country from eclipse_lunar group by country;
-
 

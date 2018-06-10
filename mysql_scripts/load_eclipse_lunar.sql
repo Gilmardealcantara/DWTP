@@ -23,10 +23,9 @@ PartialEclipseDurationm VARCHAR(50),
 TotalEclipseDurationm VARCHAR(50)
 );
 
-LOAD DATA LOCAL INFILE '/home/gilmar/Dropbox/10_periodo/DataWarehouse/tp/etl/conversao/outputs/output_lunar_eclipce_ok.csv' INTO TABLE eclipse_lunar FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES;
-select * from eclipse_lunar;
+LOAD DATA LOCAL INFILE '/home/arley/Dropbox/tp/etl/conversao/outputs/output_lunar_eclipce_ok.csv' INTO TABLE eclipse_lunar FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'  IGNORE 1 LINES;
+
+
+update eclipse_lunar as e set e.CalendarDate = substring(e.CalendarDate,1,4);
 
 select * from eclipse_lunar;
-
-update eclipse_lunar set CalendarDate=substring(CalendarDate, 2, 5);
-update eclipse_solar set CalendarDate=substring(CalendarDate, 2, 5);

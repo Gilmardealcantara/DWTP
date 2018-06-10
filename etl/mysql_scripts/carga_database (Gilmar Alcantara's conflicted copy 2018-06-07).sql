@@ -1,10 +1,5 @@
 use TPDW;
 
--- tempo
-insert into DimTempo values(1, 2017);
-insert into DimTempo values(2, 2016);
-insert into DimTempo values(3, 2015);
-
 -- localizacao
 set @rownum := 0;
 insert into DimLocalizacao (continente, pais, idLocalizacao)  
@@ -34,7 +29,7 @@ select id, country from eclipse_solar
 ;
 -- set @rownum := 0;
 
--- alter table FatoFelicidade drop foreign key fk_Fato_DimTempo;
+alter table FatoFelicidade drop foreign key fk_Fato_DimTempo;
 
 select * from FatoFelicidade;
 insert into FatoFelicidade  (
@@ -77,5 +72,4 @@ select * from meteorites;
 select count(*) as meteoros, country from meteorites group by country;
 select count(*) as eclipse_solar, country from eclipse_solar group by country;
 select count(*) as eclipse_lunar, country from eclipse_lunar group by country;
-
 
